@@ -1,0 +1,5 @@
+
+This directory contains a sparse shadow of the system root on the hosting server. 
+In this way we capture various portions of the system-level configuration within version control.
+It also provides the biggest hint about what it takes to configure a new server system with our special sauce.
+

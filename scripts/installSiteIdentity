@@ -1,0 +1,27 @@
+#!/bin/bash
+# We grant sudo permission to account users to execute this script which allows them to install new
+# server (site) certificates into the appropriate proxy location.
+# Note: sudo permission is granted by creating hosting accounts with aux group 'hostacct'
+
+[ "$1" -a -f "$1.crt.pem" -a -f "$1.key.pem" ] ||
+	{ echo "You must supply the name of a cert-key pair present here, usu. the site handle." ; exit 1 ; }
+SAVECWD="`pwd`"
+
+set -e
+source /etc/host.env.sh # 2>/dev/null # Includes our hostacct authenticator getHostAcct
+
+# Ensure we are using the shell function we intend to "authenticate" the hostacct
+echo "We are running as `id -un`"
+echo -n "Verifying host account... "
+[ `builtin type -t getHostAcct` = function ] && getHostAcct $2
+echo "$ACCOUNT OK"
+
+[ -d proxy/certs -a -d proxy/keys ] ||
+	{ echo "You must be running as a hosting account with ~/proxy/[certs|keys]/ available." ; exit 2 ; }
+
+source /etc/apache.env.sh 2>/dev/null # we need to know the APACHE_PRODUSER to grant it access to the private key
+
+cd "$SAVECWD" &&
+install -v -m 444 -o $ADMIN_USER -g $ADMIN_GROUP $1.crt.pem "$ACCOUNT_HOME/proxy/certs/$1.pem" &&
+install -v -m 440 -o $APACHE_PRODUSER -g $ADMIN_GROUP $1.key.pem "$ACCOUNT_HOME/proxy/keys/$1.pem"
+

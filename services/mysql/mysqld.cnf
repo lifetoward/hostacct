@@ -1,0 +1,15 @@
+[server]
+# One of the most important performance settings is the innodb_buffer_pool_size because it most directly
+# sets the RAM allowance for the process.
+# Documented advice is "Aim for 10-20% of total RAM a non-dedicated server; 70% for a dedicated server."
+# Note that we run many mysql servers on our host, so we need small numbers to share the memory.
+innodb_buffer_pool_size = 32M
+open_files_limit = 80
+innodb_file_per_table
+sql-mode = "NO_ENGINE_SUBSTITUTION,STRICT_TRANS_TABLES"
+character-set-server = utf8
+collation-server = utf8_general_ci
+skip-networking
+bind-address = 127.0.0.1
+
+[client]

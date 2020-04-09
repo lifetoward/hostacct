@@ -1,0 +1,34 @@
+
+proxy.conf is the top-level world-facing aspect of the account's presence via Apache.
+	Each active account's proxy.conf is included by $ADMIN_HOME/proxy/local.conf; 
+	when an account is added, its Include directive must be appended there.
+	Typically for each site, account and site variables are set and then 
+	$ADMIN_HOME/proxy/domain.conf is included to implement open and secure vhosts.
+
+services.conf is the aggregator for services within this account.
+	It is here that service-site relationships can be implemented.
+	Its role is defined by $ADMIN_HOME/proxy/domain.conf; if that's not used, this need not be.
+	It is included once per vhost under the proxy, which means once
+	per disposition (open vs secure) per domain. ${DISPOSITION} will be defined as 'open' or
+	'secure' as it is called, as will ${HANDLE}, ${DOMAIN}, ${PORTBASE}, etc. as established
+	in proxy.conf.
+
+certs/${HANDLE}.pem is where to find the public certificates for the secured server for each site.
+keys/${HANDLE}.pem is where to find the private keys for the secured server for each site.
+	These directories' contents are managed only by the PKI management functions in pki.sh,
+	especially pkiNewSite.
+
+The docroot directory is only there to serve as a backup location for a site which does not have
+	the static web service configured. It needs to be present, but need not be used.
+
+The test directory serves as the account's sites' apache ServerRoot. It's where log files for each
+	site's secure and open configurations can be found. For the production server, those are 
+	found here in this directory. 
+
+Most of the files here will be apache log files, 4 for each site/domain: 
+	The 2 per vhost are for *.errors.log and *.access.log.
+	The 2 vhosts are the open (no naming effect), and secure (within the log file name).
+	The log files will be owned by the running proxy server, which is www-data for the prod.
+
+The group of this directory must be $ADMIN_GROUP and the directory must grant write permission to group.
+

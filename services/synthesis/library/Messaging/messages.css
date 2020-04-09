@@ -1,0 +1,24 @@
+div.msgview { margin:12pt 0; padding:4pt; background-color:#FFFFCC; border:2pt solid brown; color:brown; }
+div.msgview table#header { margin:0; width:auto; font-size:100%; }
+div.msgview .author { font-size: 110%; white-space:nowrap; text-align:left; font-weight:bold; }
+div.msgview .datetime { font-size:110%; width:100%; text-align:right; }
+div.msgview .subject { font-size:120%; width:100%; text-align:left; font-weight:bold; font-style:italic; }
+div.msgview .status {font-size:110%; text-align:right; color:blue }
+div.msgview hr { margin:1pc auto; width:70%; }
+div.msgview .msgcontent { background-color:white; padding:4pt; border:1pt solid brown; white-space:pre-wrap;}
+
+table.browse { width:100%; margin:0; border-collapse:collapse; }
+table.browse th { font-weight:normal; 	font-style:italic; text-align:left; color:black; padding: 3pt 3pt; border-top:none; border-left:none; }
+table.browse td { text-align:left; color:black; padding: 3pt 3pt; }
+table.browse tr { font-size:9pt; border:1pt solid gray; }
+table.browse tr.unread { font-weight:bold; }
+table.browse tr.alt0 { cursor:pointer; background-color:#EEEEFF; }
+table.browse tr.alt1 { cursor:pointer; background-color:#FFFFDD; }
+table.browse tr.statRow_new { cursor:pointer; font-weight:bold; }
+table.browse tr.statRow_read { cursor:pointer; background-color:#EEEEFF; }
+table.browse tr.statRow_held { cursor:pointer; border:1pt solid #880000; }
+
+div.composer { }
+div.composer pre { white-space:pre-wrap; }
+span#tolistctrl { color:purple; font-style:italic; cursor:pointer; }
+.alert { color:red; font-weight:bold; }

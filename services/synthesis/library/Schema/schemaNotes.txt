@@ -1,0 +1,148 @@
+
+Must demonstrate and find database-agnostic approaches for:
+	- A query-derived field load w/ sortability
+	- An inclusion logic (see below)
+
+INCLUSION APPROACH:
+Example document of a client which is a person which is an entity:
+{	_id:ObjectId(...),
+	Client:{
+	},
+	e_employee:{
+		taxid:"085-62-1810",
+		w4allow:8,
+	},
+	e_person:{
+		 nickname:"Guy"
+		,surname:"Johnson"
+		,gender:"male"
+		,birthday:"1974-01-23"
+		,msgsvc:"(408) 605-5106"
+		,carrier:"att"
+		,comments:"Guy is just the best person I know of."
+	},
+	e_entity:{
+		 name:"Guy Johnson"
+		,email:"guy@guyjohnson.org"
+		,phone:"(512) 200-4895"
+		,enthusiasm:5
+		,comnotes:"Mentally internal conversations."
+	}
+}
+Example document of a bank which is a vendor which is an organization which is an entity and is also a client.
+{ _id:...
+	Bank:{
+	},
+	Vendor:{
+	},
+	e_organization:{
+	},
+	e_entity:{
+	},
+	Client:{
+	},
+	LLCorp:{
+	}
+}
+
+Note: ALL DERIVED FIELDS EXIST ONLY IN THE SCHEMA.
+	- You'd never see a derived field's name as a property key in the instances collection under MongoDB.
+	- Under MySQL derived fields appear in queries but not in tables.
+	- They impact the field functions or load query and of course app behavior.
+	- There are actually at least 2 kinds of derived fields, one of which has no query component even:
+		A. The kind that can be assembled from entirely within the instance using its own fields.
+			- These can be handled in overrides for fieldOps methods and have no query component.
+			- You can't sort on the finished value, however these almost never need sorting as themselves and obviously other fields in the same set can be sorted.
+		B. Those that require a query component, often an Aggregation or Grouping operation.
+			- There's more than one way to obtain this information and lay it into the result dataset of a query.
+				- MySQL solves it with fields derived from a formula.
+				- MongoDB could do a second query which can be merged onto the first query's dataset. Or, it may be possible to do it all in one as part of the projection because
+					the current plan is that it's all one collection anyway!
+			- Sorting during data load is one of the key advantages of these, so you'd want to sort.
+
+Approach to use MongoDB for Synthesis data
+	- "schema" collection contains one document per class which extends Instance
+	- "instances" collection contains the traditional data we're used to stuffing in the database
+		- each document needs to carry its class name as _class as well as everything else it needs (_capcel)
+		- _id can be system-assigned; references
+	- "sessions" collection contains session data, set to automatically expire vs. last touch (lovely!)
+
+Advantages that seem to be apparent with MongoDB vs MySQL
+	- An ultra-natural way to store session data (or any PHP dump). This would be a thing of pure beauty, eliminating all serialization concerns, etc.
+		- Session data stored this way becomes available to any app with a Mongo driver. That's very sweet.
+	- The data becomes more natively useful in any language or app environment.
+	- The most natural way to store schema information, which could be sparse and contain arrays of subdocuments (fielddefs)
+	- A more natural way to store (private) containers (embedded, multiple instances which aren't shared)
+	- No difference or difficulty between refer (typed) and instance (untyped) references; this is major!
+	- Data class inheritance is now a very different matter.
+		- You don't need included instances separate. They can now perhaps be part of the same document, and fully usable as either level.
+		- Peer class levels can exist in the same document as demonstrated in the examples above.
+			- An instance in the database is an _id with a set of fieldsets keyed by class names
+			- The schema documents describe the relationships that are allowed. No random set of information can be stored in any given document, only fieldsets
+			- The flattening process can happen during getInstanceFromLoadedData or in the projection
+		- Schemas are merged on insertion (of the schema) into the database. Resequencing of the field list is totally possible, and can be indicated as a sort of overrider in the schema assumptions
+			defined by the class file.
+
+Advantages of moving forward with schema-as-data
+	- Any app environment can access the data and get the semantics
+	- The publicly accessible methods and how to call them can be included in the schema. It can be a "service publishing" model.
+	- Implement portions in other languages whenever you want. Try out portals and modules in other languages.
+	- Will need schema access worked out and cached. Are schema objects saved in the session (as a cache) and then referenced by ?
+	- Renaming any properties of a class is now customizable like we always wanted.
+	- Translations of schema items like labels, help, etc. are all just insertions into the schema database and implementing the code to recognize the need to load them during schema load.
+
+
+A schema is only data for the app. It is not something the database cares about. It is a convention for what
+information to expect in a particular document.
+In other words, this schema is conceptually implied in the code which implements the Synthesis data model,
+	and it describes how every data instance will be encoded.
+
+Consider, for example, that a Container will simply store more stuff in its document,
+	specifically a list of embedded documents each of which adheres to a fieldset-style interpretation of this schema model, ie. one without the need for a key.
+
+Note that a relation collection could be composed of keys which are objects
+
+An embedded document is an associative array.
+
+Nowhere does this schema itself need to be stored or encoded.
+Rather, it represents a sort of template or example for what a class which inherits from Instance will contain in its schema document.
+
+instance schema: {
+??	handle: ""; table (MySQL) or collection (MongoDB) name; UNIQUE - not necessary if we use the classes field instead
+	classes: [""]; list of application classes which use this schema (not by inclusion); the class loader can
+	fielddefs: { ; or is this a simple list array and the name is selectable inside...
+		fieldName: {
+??			name: ""; plain text
+			label: ""; plain text
+			class: ""; type class or element class name
+			sort: 1|-1|0
+			type: ""; one of a fixed set: [ 'Type' (assumed), 'include', 'refer', 'require' ]; note that fieldset and inverse belong relationships are moot because they are pure schema and the field values are embedded documents
+			help: ""; plain text
+??			derived: ??? - Currently implemented in SQL as forumulaicly produced field, they equate to aggregations in MongoDB. A DB-independent specification approach would be good.
+			options: { handle: "Label", ... }
+		}
+	}
+	contained: [ fieldset:{ } ]
+	identifying: [""]; a list of field names which together represent the unique and identifying data for the collection
+	required: [""]; a list of field names which are not allowed to have empty values
+	labels: {
+		singular: "";
+		plural: "";
+		descriptive: "";
+	}
+	hints: {
+		actionName: { include:[""], exclude:[""], ... }
+	}
+	operations: { ; an operation describes something that can be done with an instance of this class...
+		opName: {
+			icon: ""
+			noun: "" one of the keys of the labels array, or else a literal noun representation
+			verb: ""
+			action: "" class name inheriting from Action
+			label: "" specifiable and renderable, it's usually automatically generated from noun and verb
+			trigger: ""
+			args: { } args list providing the baseline
+		}
+		, ...
+	}
+}

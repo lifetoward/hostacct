@@ -1,0 +1,34 @@
+<html><body style="background-color:gray">
+<div style="max-width:8in; border: 1px solid black; background-color:white;padding:2pc;margin:1pc auto">
+<h1 style="margin:0">Synthetic Web Apps gateway</h1>
+<h3 style="font-style:italic">Integrated web service hosting for individuals, private groups, and businesses</h3>
+<p>Any web services provided by Synthetic Web Apps which are validated by private SSL certificates can be trusted en masse for your hosting account simply by importing the Certificate Authority (CA, or "signing") certificate for the site in question and trusting it in the CA role. For example, let's say you're part of Acme, Inc. and Acme uses the Synthetic Web Apps solution to host all of its internal and public domains like acme.com, intranet.acme.com, acme.email, and acme-vendors.net. All of Acme's domains and sites hosted in this way have SSL certificates validated by a specially managed private CA created and maintained exclusively for Acme, Inc. If you configure your system(s) to trust this private CA, your access to all of Acme's sites will be properly validated.
+<p>To locate the appropriate signing (CA) certificate for a given site hosted here, just navigate your browser to the ca.crt file at the top of your Synthetic hosted domain, as in: http://example.com/ca.crt . (<a href="/ca.crt" target="_blank">Try it for this website!</a>)
+<p>While operating systems in general (Linux, Windows, Mac) are typically able to import and establish trust of these CA certificates, in fact each <em>browser</em> tends to only trust certificates established through each its own specific import mechanism. Instructions are provided below for establishing the necessary trust in a few popular browser scenarios.
+<p>To trust any Certificate Authority's signing certificate:</p>
+<p><strong>Google Chrome or Chromium</strong><ol>
+<li>Download the certificate you would like to trust as a CA to a known location and name.
+<li>Open the Settings (Preferences) panel within Chrome.
+<li>Click on the "Show advanced settings..." link at the bottom of the normal preferences page.
+<li>Find the section called "HTTPS/SSL" and click the "Manage certificates..." button there.
+<li>Select the Authorities tab, then click the Import... button.
+<li>Locate the certificate file you downloaded and select it.
+<li>Enable signing roles you would like to trust. We recommend selecting all 3 of them (websites, email, and apps).
+<li>Click OK, and if the certificate you selected is a valid Root CA, it will become a trusted authority.
+</ol>
+<p><strong>On iOS 8+ with Safari</strong><ol>
+<li>From an ordinary computer like Linux, Mac, or Windows, download the certificate you would like to trust as a CA to a known location and name.
+<li>Email the certificate as an attachment to an email account which you access from your iOS device. It's OK if the account is the same as you're sending from.
+<li>On your iOS device, open this email and click on the attached certificate file.
+<li>Follow the wizard, and be sure to visually confirm (by examining the details as able) that the certificate you're accepting is indeed the one you want to trust.
+</ol>
+<p><strong>Mozilla Firefox</strong><ol>
+<li>Access the certificate file directly through your browser's address bar, bookmark, link, etc.
+<li>The import wizard for the certificate should automatically pop up. 
+<li>Enable signing roles you would like to trust. We recommend selecting all 3 of them (websites, email, and apps).
+<li>Click OK, and if the certificate you selected is a valid Root CA, it will become a trusted authority.
+</ol>
+<p>Trusting a CA certificate in this way does not present a security risk to the organization. For example, if you were to lose your iPhone on which you had configured this trust, no harm would come to your sites as a result. 
+</div>
+<div style="margin:auto;max-width:8in;text-align:center;font-style:italic;font-size:smaller">&copy; 2015 Lifetoward LLC</body></html>
+

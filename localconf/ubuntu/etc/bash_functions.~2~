@@ -1,0 +1,141 @@
+
+# Source this file to obtain some helpful command line tools 
+
+function prepath
+{
+	[ "$1" ] ||
+		echo "
+usage: $FUNCNAME [ directory [ ... ] ]
+
+Without an argument, $FUNCNAME displays this message. It always displays the current path.
+For each argument given, prepath ensures it is a traversable directory and canonicalizes it (normalizing symlinks).
+Then the current path is checked to see if the directory is already there.
+If the canonical directory is not already in your path, it is added to the front of the path.
+Otherwise the argument is skipped.
+
+Handling of individual arguments is reported to stderr (&2) while the path display goes to stdout (&1)
+"
+	while [ "$1" ]
+	do
+		if cd -P "$1" >/dev/null 2>&1
+		then
+			[ "$PATH" = "${PATH##*$PWD:}" ] && # A match implies the new directory is NOT present (except maybe at the end)
+				{ export PATH="$PWD:$PATH" ; echo "Directory \"$PWD\" prepended on \$PATH" ; } ||
+				echo "(Directory \"$PWD\" is already present. Skipped.)"
+			cd - >/dev/null 2>&1
+		else
+			echo "$FUNCNAME: Not a directory: \"$1\""
+		fi
+		shift
+	done >&2
+	echo "Path: $PATH"
+}
+
+function findall
+{
+        [ -z "$1" ] && {
+                cat << endusage
+
+usage: $FUNCNAME [ -w{more_grep_options} | -g{grep_options} ] { search_regex } [ path_top ] [ find_options ... ]
+        search_regex is an extended regex of the text you're searching for in the files in the tree.
+        path_top defaults to '.', i.e. the current directory; if it's not a directory, we assume it's not a path_top.
+        grep_options defaults to 'li' to provide a list of files containing the text sought using case insensitive matching;
+            your specification overrides this entirely to fully specify egrep's options
+                NOTE THE LACK OF SPACE BETWEEN THE -g AND THE GREP_OPTIONS! (That's intended. See examples.)
+        The -w ("where") option is the same as -gHni, ie. show matching lines along with their locations.
+
+notes:
+        Your find_options will appear first in the order of arguments to the find command.
+        We always exclude .bzr and .idea directories and only process file names which don't end in ~ .
+        The last option to the find command will be the -exec egrep operation.
+
+examples:
+        findall actionresult ; # simple case insensitive search in current directory's hierarchy producing list of filenames
+        findall -w capcelaction lib -maxdepth 2 -name '*.php' ; # matches with locations from PHP files, shallow from lib/
+        findall -g CapcelContext -name '*.php'; # case sensitive dump of only matching lines from PHP files
+
+endusage
+                return 1
+        } >&2
+        local GREPOPTS=li NAMESPEC= FINDARGS="-type f ! -path '*/.bzr/*' ! -path '*/.idea/*' ! -name '*~'"
+        while [ "$1" ]
+        do
+                case "$1" in                                                                                                                                                            
+                        -w*)  GREPOPTS="nHi${1#-w}" ; shift ;;
+                        -g*)  GREPOPTS="${1#-g}" ; shift ;;
+                        -?|-h) findall ; return ;;
+                        -*)  echo "Option '$1' ignored." ; shift ;;
+                        *)  break ;; # a non-option breaks the loop
+                esac
+        done
+        [ -z "$1" ] && { findall ; return ; }
+        local EXPR="$1" TOP=
+        shift
+        [ "$1" -a -d "$1" ] && { TOP="$1" ; shift ; }
+        local CMD="find '${TOP:-.}' $@ $FINDARGS -exec egrep -${GREPOPTS:-e} '$EXPR' {} \;"
+        echo $CMD >&2
+        eval $CMD
+}                                                                                                                                                                                       
+sendEmail_="
+Usage: sendEmail -to { to_address[,...] } [ -subject { subject } ] [ -from { from_address } ] [ -cc { copy_address[,...] } ] [ -bcc { blind_copy[,...] } ]
+We use ssmtp to send email.
+You can provide the options in any order, however valid options must be followed by exactly one value.
+    Be sure to quote properly!
+The email body, which begin with any additional headers and a blank line, must be provided on STDIN.
+To, Cc, and Bcc addresses may be provided as comma-separated lists.
+    Providing multiple instances of a particular option appends to these lists.
+Any address can be provided in rfc822 format as long as it's properly quoted, ie: \"Full Name <account@example.com>\".
+"
+function sendEmail {
+    local to="To: " from="From: WebAdmin@SyntheticWebApps.com" subject="Subject: (no subject)" cc="Cc: " bcc="Bcc: " rcpt=
+    while [ "${1#-}" != "$1" ]
+    do
+        optval="${1#-}" ; shift
+        case "$optval" in
+          to|cc|bcc)
+            eval $optval+="\"$1,\"" ; rcpt+="$1," ; shift ;;
+          from)
+            eval $optval=\"From: "$1"\" ; shift ;;
+          subject)
+            eval $optval=\"Subject: "$1"\" ; shift ;;
+        esac
+    done
+    [ "$rcpt" ] ||
+        { echo "At least one addressee is required." ; eval echo \"\$${FUNCNAME}_\" ; return 1 ; }
+    {   echo "$from"
+        echo "${to%,}"
+        [ "${cc#Cc: }" ] && echo "${cc%,}"
+        echo "X-Mailer: sendEmail function @ $WEBHOST_DOMAIN"
+        echo "$subject"
+        cat
+    } | sendmail "${rcpt%,}"
+}
+echo added function sendEmail
+
+shopt -s extglob # We use extended patterns in the case statement inside validateEmailAddress
+
+validateEmailAddress_="
+Usage: validateEmailAddress  { simple_address }  [ help_text ]
+We validate just the basic format of the address only, not the RFC822 full format.
+If you pass help text it takes the place of this help message.
+"
+function validateEmailAddress {
+	[ -z "$1" ] && {
+		echo "An email address is required."
+		[ "$2" ] && eval echo \"\$${2}_\" || eval echo \"\$$FUNCNAME\"
+		return 1
+	}
+	case "$1" in
+		*([a-zA-Z0-9._-])@*([a-zA-Z0-9._-]))
+			EMAIL="${1%@*}" DOMAIN="${1#*@}"
+			;;
+		*)  echo "\"$1\" is not of a valid email address format."
+			[ "$2" ] && eval echo \"\$${2}_\"
+			return 2
+			;;
+	esac
+}
+echo added function validateEmailAddress
+
+alias ps='ps -eHo user,pid,ppid,vsize,args | cat'
+

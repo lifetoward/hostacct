@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Generator: Adobe Illustrator 18.1.1, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="150px"
+	 height="86px" viewBox="0 0 150 86" enable-background="new 0 0 150 86" xml:space="preserve">
+<g id="Layer_1">
+	<rect fill="#F0F0F0" width="150" height="63"/>
+	<polygon fill="#349DE8" points="150,86 0,86 0,58 75,63 150,58 	"/>
+	<path opacity="0.25" d="M140,41H10c-0.552,0-1-0.448-1-1l0,0c0-0.552,0.448-1,1-1h130c0.552,0,1,0.448,1,1l0,0
+		C141,40.552,140.552,41,140,41z"/>
+	<path opacity="0.1" d="M140,50H10c-0.552,0-1-0.448-1-1l0,0c0-0.552,0.448-1,1-1h130c0.552,0,1,0.448,1,1l0,0
+		C141,49.552,140.552,50,140,50z"/>
+	<path fill="#FFFFFF" d="M102,79H10c-0.552,0-1-0.448-1-1v-7c0-0.552,0.448-1,1-1h92c0.552,0,1,0.448,1,1v7
+		C103,78.552,102.552,79,102,79z"/>
+	<path fill="#164363" d="M140,79h-30c-0.552,0-1-0.448-1-1v-7c0-0.552,0.448-1,1-1h30c0.552,0,1,0.448,1,1v7
+		C141,78.552,140.552,79,140,79z"/>
+	<g>
+		<path fill="#349DE8" d="M148,2v82H2V2H148 M150,0H0v86h150V0L150,0z"/>
+	</g>
+	<g>
+		<polygon fill="#BD492A" points="142,10 122.757,10 122.757,25.564 142,25.564 136.34,17.782 		"/>
+		<polygon fill="#BD492A" points="9,25.564 28.243,25.564 28.243,10 9,10 14.66,17.782 		"/>
+		<polygon fill="#7E3929" points="127.002,14.245 122.757,10 122.757,14.245 		"/>
+		<polygon fill="#7E3929" points="23.998,14.245 28.243,10 28.243,14.245 		"/>
+		<rect x="23.998" y="14.245" fill="#E85A34" width="103.004" height="15.564"/>
+		<g opacity="0.1">
+			<text transform="matrix(1 0 0 1 50.516 26.0944)" font-family="'Kreon-Bold'" font-size="8.7723">SUBSCRIBE!</text>
+		</g>
+		<g>
+			<text transform="matrix(1 0 0 1 50.516 25.529)" fill="#FDF4EE" font-family="'Kreon-Bold'" font-size="8.7723">SUBSCRIBE!</text>
+		</g>
+	</g>
+</g>
+<g id="Layer_2" display="none">
+</g>
+</svg>

@@ -1,0 +1,44 @@
+#!/bin/sh
+# manageService - Service-specific management script; operates on a specific ACCOUNT
+# See the sourced scripts from $ADMIN_HOME/scripts/ which actually do most of the work.
+
+[ -d "$ADMIN_HOME/scripts" ] ||
+	{ echo "Can't proceed without \$ADMIN_HOME!" ; exit 1 ; }
+
+export SERVICE=basicweb
+source "$ADMIN_HOME/scripts/manageService.common.sh"
+
+[ "$METHOD" = deploy ] && {
+	[ -d "$ACCOUNT_HOME/$SERVICE" ] &&
+		echo "The basicweb service is already present in account $ACCOUNT" ||
+		ln -s "$SERVICE_HOME" "$ACCOUNT_HOME/$SERVICE"
+	exit $?
+}
+
+ACCTSERV_REF="$ACCOUNT_HOME/$SERVICE"
+cd -P "$ACCTSERV_REF" ||
+	usage "The chosen service ($SERVICE) does not appear to be deployed for the chosen account ($ACCOUNT)." 80
+export ACCTSERV_HOME="$PWD"
+export PATH="$ACCTSERV_HOME/scripts:$PATH"
+
+case "$METHOD" in
+
+	restart)
+		echo "Restarting the basicweb service means restarting the whole host's server... must await a window."
+		ERROR=$?
+		;;
+
+	*)	usage "Unrecognized method ($METHOD)" 70
+		;;
+esac
+
+[ -z "$ERROR" ] &&
+	usage "Unrecognized method ($METHOD)" 3
+
+[ "$ERROR" != 0 ] && {
+	echo "Method \"$METHOD\" failed. The last few lines of the error log follow: {"
+	tail errors.log
+	echo "}"
+} >&2
+
+exit $ERROR

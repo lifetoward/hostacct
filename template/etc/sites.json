@@ -1,0 +1,25 @@
+{
+"site1":{
+	"domains":[ "example.com", "other.example.com" ],
+	"portbase":30,
+	"services":[ "static", "mysql", "synthesis", "wordpress", "wiki", "capcel" ]
+	},
+"site2":{
+	"domains":[ "example2.com", "other.example2.com" ],
+	"portbase":31,
+	"services":[ "static", "mysql", "synthesis", "wordpress", "wiki", "capcel" ]
+	}
+}
+
+sitename example.com 30 static mysql synthesis email wordpress
+
+The first blank line terminates the list of sites.
+Each line contains the following fields:
+	- a short handle by which to identify the site
+	- the world-facing (proxy-held) domain name for general use 
+	- the portbase for service proxied services for that site on localhost
+	- list of services enabled for the site
+
+The domain name on which the local and actual HTTPD server instances run is defined by the system
+as localhost:${SERVICE_PORT}
+

@@ -1,0 +1,68 @@
+version 1.0.5 ( updated 06-04-2015 )
+- Security Patch - Disallowed SVG images from media library upload.
+	* bloom.php
+
+version 1.0.4 ( updated 05-02-2015 )
+- Fixed high memory usage issues on some sites with a lot of statistics data
+	* bloom.php
+
+version 1.0.3 ( updated 04-23-2015 )
+- Fixed the issue with "loading icon" visibility in WordPress 4.2
+	* css/admin.css
+	* dashboard/css/et_dashboard.css
+	* dashboard/js/et_dashboard.js
+	* js/admin.js
+- Improved the settings page perfomance
+	* bloom.php
+	* dashboard/css/et_dashboard.css
+	* dashboard/dashboard.php
+	* dashboard/includes/options.php
+	* dashboard/js/et_dashboard.js
+	* js/admin.js
+	* css/admin.css
+	* removed dashboard/js/chosen
+- Fixed the issue with quotes in account names
+- Fixed "Below Post" optin priority
+- Improved compatibility with plugins that use tinyMCE editor
+	* bloom.php
+- Fixed the issue with an optin button background color in some themes
+	* css/style.css
+
+version 1.0.2 ( updated 03-23-2015 )
+- Fixed quotes encoding issues
+- Fixed the issue with the Widget Custom CSS, not applied to a site
+	* bloom.php
+- Improved the plugin settings page perfomance
+- Added "Refresh Stats" and "Clear Stats" buttons
+	* bloom.php
+	* css/admin.css
+	* js/admin.js
+- Renamed MailChimp class to avoid conflicts with other plugins
+	* bloom.php
+	* subscription/mailchimp/mailchimp.php
+- Fixed the issue with wrong impressions count, when several form triggers were enabled
+- Fixed some issues with error message styling
+	* js/custom.js
+- Fixed the issue with inline optin height calculation, when a form is bigger than content
+	* bloom.php
+	* css/style.css
+	* js/custom.js
+
+version 1.0.1 ( updated 03-19-2015 )
+- MailChimp: Fixed the issue with authorization of accounts with 0 lists
+- Feedblitz: Fixed the issue with SSL certificate, that is used for API requests
+- Fixed the issue with a form title and message characters encoding
+- Improved compatibility with other plugins. Fixed the issue with TinyMCE button script, loaded on plugins admin pages.
+- Mad Mimi: Improved error messages
+- MailPoet: Added Double Opt-in support
+- Fixed the issue with some forms, missing the name field
+- Fixed round() php function compatibility issues with older versions of PHP
+	* bloom.php
+- Now it's possible to use a blank title for the widget
+	* includes/bloom-widget.php
+- Removed text shadow from forms footer element.
+	* css/style.css
+- Infusionsoft: Renamed the folder to lowercase. Fixes require_once function error on some servers.
+
+version 1.0
+- Initial Release.

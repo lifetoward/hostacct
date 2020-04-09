@@ -1,0 +1,9 @@
+# hostacct's standard login profile
+
+. /etc/host.env.sh
+. apache.sh
+. mysql.sh
+. pki.sh
+. bluehost.sh # to become email.sh some day
+. ~/etc/account.env.sh
+

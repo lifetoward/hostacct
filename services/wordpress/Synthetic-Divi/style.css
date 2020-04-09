@@ -1,0 +1,37 @@
+/*
+ Theme Name:   Synthetic Divi tweaks
+ Theme URI:    http://SyntheticWebApps.com/wp-themes/Synthetic-Divi
+ Description:  Tweaks to spice up ElegantThemes' Divi
+ Author:       Guy Johnson
+ Author URI:   http://SyntheticWebApps.com/people/Guyj
+ Template:     Divi
+ Version:      0.1
+ License:      proprietary
+ License URI:  http://SyntheticWebApps.com/wp-themes/Synthetic-Divi
+ Tags:         light, dark, two-columns, right-sidebar, responsive-layout, accessibility-ready
+ Text Domain:  Synthetic-Divi
+*/
+
+/**
+* Fix Divi's list formatting problems in main content
+*/
+.entry-content ol { 
+	margin: 1em 0 !important;
+	padding: 0 2em !important;
+	list-style-position: outside !important;
+}
+.entry-content li { margin: .5em !important; }
+.entry-content li > strong { font-size: 120%; }
+
+/**
+* MAILPOET STYLIZING
+*/
+p.wysija-paragraph { display:inline-block; margin:0 0 2px; padding:0 2px 0 0; }
+input.wysija-input { width:20em; }
+input.wysija-input[title=Email] { width:35em; }
+input.wysija-input[title=Email]:before { content:"Email: "; }
+p.wysija-checkbox-label { margin:4px 0 0 !important; padding: 0 2pt 0 0; }
+p.wysija-checkbox-paragraph { display:inline-block; width:45%; margin:0; padding:0 2px 0 0; }
+p.wysija-checkbox-paragraph label { width:100%; padding:0; }
+.widget_wysija_cont p label { display:inline; }
+.formError div.formErrorContent { width:auto; line-height:1.2; }

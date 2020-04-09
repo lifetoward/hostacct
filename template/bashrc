@@ -1,0 +1,28 @@
+# .bashrc for a HostAcct
+
+# If not running interactively, don't do anything
+[ -z "$PS1" ] && return
+
+HISTCONTROL=ignoredups:ignorespace
+HISTSIZE=1000
+HISTFILESIZE=2000
+shopt -s histappend
+shopt -s autocd
+shopt -s checkwinsize
+
+test -x /usr/bin/lesspipe && 
+	eval "$(SHELL=/bin/sh lesspipe)"
+
+export PS1="\w\n\u@\h> "
+
+alias e='/usr/bin/vi'
+alias ls='ls -BF --group-directories-first'
+alias l='ls -lA --group-directories-first'
+alias la='ls -A --group-directories-first'
+
+[ -f /etc/bash_completion -a -d /etc/bash_completion.d ] &&
+	source /etc/bash_completion
+
+[ -z "$SSH_CONNECTION" ] && return
+export SSH_USER_IP=${SSH_CONNECTION%% *}
+echo "SSH_USER_IP=$SSH_USER_IP"

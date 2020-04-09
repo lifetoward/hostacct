@@ -1,0 +1,12 @@
+@font-face {
+	font-family: 'ET_Bloomlogo';
+	src:url('fonts/bloomlogo.eot?gd6mr8');
+	src:url('fonts/bloomlogo.eot?#iefixgd6mr8') format('embedded-opentype'),
+		url('fonts/bloomlogo.woff?gd6mr8') format('woff'),
+		url('fonts/bloomlogo.ttf?gd6mr8') format('truetype'),
+		url('fonts/bloomlogo.svg?gd6mr8#ETdashboard') format('svg');
+	font-weight: normal;
+	font-style: normal;
+}
+
+#adminmenu #toplevel_page_et_bloom_options div.wp-menu-image:before { font-family: ET_Bloomlogo !important; content:"\e600"; font-size: 20px !important; }

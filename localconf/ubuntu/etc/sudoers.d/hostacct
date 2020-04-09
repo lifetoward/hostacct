@@ -1,0 +1,6 @@
+# Here we grant sudo privileges to a few very specific commands which facilitate managing a hosting account.
+# For example, a hosting account user will be able to execute installSiteIdentity to get their site keys and
+# certs installed into the other-owned and locked down proxy/[certs|keys]/ directories.
+
+%hostacct ALL=(root) NOPASSWD:/home/ubuntu/scripts/installSiteIdentity
+ubuntu ALL=(root) NOPASSWD:/home/ubuntu/scripts/manageProxy

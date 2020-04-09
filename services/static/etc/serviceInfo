@@ -1,0 +1,11 @@
+Basic Web Hosting Service
+With this service we provide web access to the account's static web content.
+We do it directly through the account's virtual host and we do not manage our own server instance.
+
+There are currently 3 different static content repositories we provide access to:
+
+	URL location                Content directory
+	------------                -----------------
+	$ACCOUNT_DOMAIN/            $ACCOUNT_HOME/static/${site_handle}/
+	$ACCOUNT_DOMAIN/backups/    $ACCOUNT_HOME/backups/
+

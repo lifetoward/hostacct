@@ -1,0 +1,9 @@
+./run/*
+!./run/sessions
+!./run/uploads
+./run/sessions/*
+./run/uploads/*
+bak/*
+./lib
+./.emailpass
+

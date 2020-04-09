@@ -1,0 +1,6 @@
+
+SHELL=/bin/bash
+PATH=~/scripts:/usr/sbin:/sbin:/usr/local/scripts:/usr/local/bin:/usr/bin:/bin
+
+@hourly /home/ubuntu/scripts/cron.sh
+

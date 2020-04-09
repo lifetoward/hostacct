@@ -1,0 +1,75 @@
+<module name="dolists">
+
+	<element name="project" singular="Project" plural="Projects" descriptive="Project info" render="label">
+		<displayview label="Project tasks" render="belongers_view" focus="dolists:element:workitem" field="project"/>
+		<displayview label="Project info" render="referent_view"/>
+		<field name="label" type="base:string" label="Project label">
+			<contexts normal="*render"/>
+			</field>
+		<field name="description" type="base:richtext" label="Description">
+			<contexts normal="*render">*concise</contexts>
+			</field>
+		<trigger action="base:action:create">base:browse:banner</trigger>
+		<trigger action="base:action:display">base:browse:record</trigger>
+		<trigger action="base:action:update">base:browse:record</trigger>
+		<trigger action="base:action:delete">base:browse:record</trigger>
+		</element>
+
+	<element name="workitem" singular="Work item" plural="Work items" render="title"
+			descriptive="Task information">
+		<displayview label="Task info" render="referent_view"/>
+		<displayview label="Pre-requisites" render="relatives_list_view" focus="dolists:relation:dependency:pro"/>
+		<displayview label="Dependent tasks" render="relatives_list_view" focus="dolists:relation:dependency:con"/>
+		<field name="project" type="*belong" reference="dolists:element:project" label="Project area">
+			<contexts normal="*render"/></field>
+		<field name="priority" type="base:integer" range="1-999" sort="ASC" label="Priority">
+			<contexts normal="*render"/></field>
+		<field name="status" type="base:select" label="Status" sort="DESC">
+			<option name="open">Unstarted</option>
+			<option name="working">Active</option>
+			<option name="complete">Complete</option>
+			<option name="onhold">On hold</option>
+			<option name="canceled">Canceled</option>
+			<contexts normal="*render"/></field>
+		<field name="title" type="base:string" label="Title (short description)">
+			<contexts normal="*render"/></field>
+		<field name="notes" type="base:richtext" label="Notes (full description)">
+			<contexts>*update,*create,*complete</contexts></field>
+		<trigger action="base:action:create">base:browse:banner,base:display:belongers</trigger>
+		<trigger action="base:action:display">base:browse:record,base:display:belonger</trigger>
+		<trigger action="base:action:update">base:browse:record,base:display:belonger,base:display:referent</trigger>
+		<trigger action="base:action:delete">base:browse:record</trigger>
+		</element>
+
+	<relation name="dependency" referent="dolists:element:workitem" relative="dolists:element:workitem">
+		<pro singular="Pre-requisite" plural="Pre-requisites">
+			<trigger action="base:action:relate">base:display:relations</trigger>
+			<trigger action="base:action:dissociate">base:display:relation</trigger>
+			</pro>
+		<con singular="Dependent task" plural="Dependent tasks">
+			<trigger action="base:action:relate">base:display:relations</trigger>
+			<trigger action="base:action:dissociate">base:display:relation</trigger>
+			</con>
+		<field name="details" type="base:richtext" label="Dependency notes"></field>
+		</relation>
+
+	<element name="worklog" singular="">
+		<field name="item" type="*require" reference="dolists:element:workitem" label="Work item">
+			<contexts normal="*render"/></field>
+		<field name="action" type="base:enum" label="Action"><flags></flags>
+			<option name="comment"></option>
+			<option name="activate"></option>
+			<option name="split"></option>
+			<option name="merge"></option>
+			<option name="complete"></option>
+			<option name="cancel"></option>
+			<contexts normal="*render"/></field>
+		<field name="notes" type="base:richtext" label="Notes and comments">
+			<contexts normal="*render"/></field>
+		<trigger action="base:action:create">base:browse:banner</trigger>
+		<trigger action="base:action:display">base:browse:record</trigger>
+		<trigger action="base:action:update">base:browse:record</trigger>
+		<trigger action="base:action:delete">base:browse:record</trigger>
+		</element>
+
+</module>

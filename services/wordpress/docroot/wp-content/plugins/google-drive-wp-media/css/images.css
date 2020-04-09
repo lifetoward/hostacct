@@ -1,0 +1,34 @@
+/* default css ==> 3 kolom 33%*/
+.gdwpmGallery0 {
+	margin: auto;
+	}
+.gdwpmGallery0 .gallery-item {
+	float: left;
+	margin-top: 7px;
+	text-align: center;
+	}
+.gdwpmGallery0 img {
+	border: 2px solid #cfcfcf
+	}
+.gdwpmGallery0 .gallery-caption {
+	margin-left: 0;
+}
+/* blackwhite effect*/
+.gdwpm-bwefek img { 
+-webkit-filter: grayscale(99%);
+filter: grayscale(99%);
+filter: gray;
+filter: url("data:image/svg+xml;utf8,#greyscale"); 
+}
+.gdwpm-bwefek img:hover { 
+filter: none;
+-webkit-filter: grayscale(0%); 
+opacity: 0.8;
+}
+/* light hover effek */
+.gdwpm-lightefek img {
+	opacity: 1;
+}
+.gdwpm-lightefek img:hover {
+	opacity: 0.8;
+}

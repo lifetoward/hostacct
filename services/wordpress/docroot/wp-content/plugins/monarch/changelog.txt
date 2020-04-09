@@ -1,0 +1,118 @@
+version 1.2.3 ( 05-02-2015 )
+- Integrated Facebook API changes. Due to changes in Facebook's API, Monarch must be authorized to obtain follow/share counts from Facebook. Please get an App ID and App Secret from Facebook.
+	* includes/monarch_options.php
+	* js/admin.js
+	* monarch.php
+- Updated localization files
+	* languages/Monarch-en_US.po
+	* languages/Monarch-en_US.mo
+
+version 1.2.2 ( 04-21-2015 )
+- Fixed the issue with "loading icon" visibility in WordPress 4.2
+	* css/admin.css
+	* js/admin.js
+
+version 1.2.1 ( 02-19-2015 )
+- Added support for all Pinterest data formats
+- Fixed the issue with disabled "Share Count" option, visible on the mobile version
+- Fixed the issue with Like count, not displaying inside the mobile sidebar
+	* monarch.php
+- Added alt attribute ( alternate text ) to images in the Pinterest picker
+	* js/custom.js
+
+version 1.2 ( 02-05-2015 )
+
+- Monarch widget: Fixed the issue with likes count error
+	* monarch.php
+- Added option for Sidebar on Right Browser Edge:
+	* css/style.css
+	* includes/monarch_options.php
+	* monarch.php
+- Added a "Home" Option Within The Post Type Settings Of All Locations
+	* includes/monarch_options.php
+	* monarch.php
+- Added All Time Stats Graph
+	* css/admin.css
+	* js/admin.js
+	* monarch.php
+- Added Twitter Followers Auto Count
+	* includes/monarch_options.php
+	* includes/oauth.php
+	* includes/twitter_auth.php
+	* js/admin.js
+	* monarch.php
+- Added Pinterest Followers Auto Count
+- Added YouTube Api Support
+- Improved YouTube response handling
+- Fixed the issue with Pinterest icon,  conflicting with the official Pinterest plugin icon
+- Fixed the issue with wrong Google+ share counts
+- Fixed the issue with Twitter sharing link on mobile devices
+	* monarch.php
+- Added Stats Meta Box
+	* css/stats-meta-styles.css
+	* js/monarch-post-meta.js
+	* monarch.php
+- Added "All Networks" Front-end Icon
+	* css/fonts
+	* css/style.css
+	* includes/monarch_options.php
+	* monarch.php
+	* js/custom.js
+- Added "After Inactivity" Trigger
+- Added "After Comment" Trigger To Fly-In & Pop-Up
+- Added "Percentage Down The Page" trigger to Fly-In & Pop-Up
+- Added "After WooCommerce Purchase" Trigger To Fly-In & Pop-Up
+	* includes/monarch_options.php
+	* js/custom.js
+	* js/idle-timer.js
+	* monarch.php
+- Added Fadein/FadeOut Animation To Popup Overlay
+	* css/style.css
+	* js/custom.js
+- Fixed the issue with monarch widget class that had no width defined
+	* css/style.css
+- Added Highest performing posts to stats
+	* css/admin.css
+	* monarch.php
+
+version 1.1.2 ( 11-21-2014 )
+- Fixed the issue with override settings that were not saved correctly
+- Fixed the issue with incorrectly encoded symbols in the sharing popup window
+- Fixed the issue with a backslash displayed before apostrophes in popup/flyin titles and descriptions
+- Fixed some issues with the Contact Form module in the Divi theme
+- Counters display 1 Mil ( 1 million ) as opposed to 1000k now
+	* monarch.php
+- Fixed the issue with image size / alignment inside of the media shortcode
+- Fixed styling issues with some themes
+	* css/style.css
+	* js/custom.js
+- Pinterest Modal window: added an error message if there are no images on a page, improved functionality
+- Added "Hide/Show Sidebar" button
+	* css/style.css
+	* js/custom.js
+	* monarch.php
+- Improved Auto Width styles, auto width buttons remain auto width on mobile.
+	* css/style.css
+
+version 1.1.1 ( 10-28-2014 )
+- Fixed the issue with page url, not working properly, when some additional information was appended to it.
+	* js/custom.js
+
+version 1.1 ( 10-24-2014 )
+- Fixed Pinterest Modal Images visibility issue
+- Fixed styling issues
+- Fixed OpenSans typo - the font was not being used
+	* css/style.css
+- Added % Height to "Add Network" modal window
+	* css/admin.css
+	* js/admin.js
+- Fixed the issue with cached share counts
+- Fixed Pinterest modal warning message, when no networks were selected
+	* monarch.php
+- Fixed the issue with automatic share counts, not properly calculated after a comment is made
+	* js/custom.js
+	* monarch.php
+
+version 1.0 ( 10-22-2014 )
+
+- Initial release

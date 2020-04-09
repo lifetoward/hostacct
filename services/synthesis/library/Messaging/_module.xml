@@ -1,0 +1,41 @@
+<module name="messages" label="System messaging">
+
+	<element name="message" singular="Message" plural="Messages">
+		<field name="author" type="*instance" label="Author">
+			<flags>notnull,readonly,identifying</flags><contexts normal="*render"/></field>
+		<field name="composed" type="base:timestamp" sort="DESC" label="Composed">
+			<flags>notnull,readonly,identifying</flags><contexts normal="*render"/></field>
+		<field name="subject" type="base:string" sort="ASC" label="Subject"><flags>notnull,required,identifying</flags>
+			<contexts normal="*render"/></field>
+		<field name="content" type="base:richtext" label="Message content">
+			<help>The message content is the primary body of a message in rich text format.</help>
+			<contexts>*complete,*create</contexts></field>
+		<field name="parent" type="*belong" label="Response to" reference="messages:element:message">
+			<contexts normal="*render">*concise</contexts><flags>readonly</flags></field>
+		</element>
+
+	<element name="msgrcpt" singular="Message receipt" plural="Message receipts">
+		<field name="message" type="*require" reference="messages:element:message" sort="1" label="Message">
+			<flags>notnull,readonly</flags><contexts normal="*render"/></field>
+		<field name="recipient" type="*instance" label="Recipient">
+			<flags comment="null is OK here because sometimes a service, group, or other implied recipient manages the messages">readonly</flags><contexts normal="*render"/></field>
+		<field name="msgstat" type="base:select" label="Status" initial="new">
+			<option name="new">Unread</option>
+			<option name="read">Read</option>
+			<option name="held">Retained</option>
+			<contexts normal="*render"/><flags>readonly,notnull</flags></field>
+		</element>
+
+	<action name="compose" execute="messages/actions:composeMessage" icon="new.png" label="Compose message">
+		<arg name="focus" comment="This focus is the type of the recipients or a relation whose relative is the type of the recipients"/>
+		<arg name="id" comment="provides the recipient(s) when the focus is an element; if neither id nor rel are provided, the message will be an open letter upon the exchange"/>
+		<arg name="rel" comment="provides the recipient(s), could be multiple; if neither id nor rel are provided, the message will be an open letter upon the exchange"/>
+		<arg name="parent" comment="don't pass this unless responding to or forwarding a message; when this is passed, focus and its ids are not required"/>
+		<arg name="act" comment="for internal interactor use; not for the action caller"/>
+		</action>
+
+	<action name="display" execute="messages/actions:displayMessage" icon="examine.png" label="*singular" verb="View">
+		<arg name="id" comment="the id of a msgrcpt element"/>
+		</action>
+
+</module>

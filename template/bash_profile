@@ -1,0 +1,7 @@
+# HostAcct/.bash_profile
+# source the hosting profile and the hostacct bashrc
+
+mesg n
+. ~/.profile
+. ~/.bashrc
+

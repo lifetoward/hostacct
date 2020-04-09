@@ -1,0 +1,10 @@
+phpdoc/*
+./run/*
+./lib
+bak/*
+./env.sh
+./*.conf
+./.bzrignore
+./.emailpass
+./cron.sh
+

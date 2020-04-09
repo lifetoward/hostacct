@@ -1,0 +1,14 @@
+./instances/*
+.cache
+.creds
+*_history
+.bazaar
+*.log
+.viminfo
+.lesshst
+.selected_editor
+.ssh
+./archive
+./.bash_logout
+./.profile
+./.bashrc

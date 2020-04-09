@@ -1,0 +1,70 @@
+#!/bin/bash 
+
+# manageProxy
+# Created by Biz Wiz on 1/28/15.
+
+# The WebAdmin user (ubuntu) should run this under sudo to allow access to necessary privileges.
+
+# Original code
+# @copyright 2014 Lifetoward LLC / SyntheticWebApps
+# @author Guy Johnson (Guy@SyntheticWebApps.com)
+# @license proprietary
+
+{ # manageProxy runs under sudo, so it needs its environment every time.
+  . /etc/host.env.sh
+  . apache.sh
+} &>/dev/null
+
+function usage {
+	echo
+	test -n "$1" && echo "error: $1"
+	cat << end-usage
+
+usage: $0 { method } [ args ... ]
+
+	This script faciliates managing the system-wide front-end proxy server (Apache).
+	Running this command requires root powers, so the hosting administrator must run it under sudo.
+
+Available methods:
+	status - Check that the proxy is up and running nominally. Exit with 0 if all is well and something else if not.
+	start - Start the proxy server; reports true if the server starts
+	stop - Stop the proxy server; reports true if the server stops and is stopped
+	config - Obtain the runtime configuration information on STDOUT (/server-info)
+	runstat - Obtain the runtime internal status report on STDOUT (/server-status)
+    check - Perform a combination of status and runstat methods with reduced runstat output;
+        the idea here is to use both ways to confirm all is well; this sends an alert message to webadmin if all is not well.
+
+Future methods:
+	maintain - Switch the proxy into maintenance mode. This really means stop the real proxy and bring up a temporary in its place.
+	restore - Switch the proxy out of maintenance mode and back to production mode.
+
+end-usage
+	exit ${2:-1}
+}
+
+set -e
+cd "$ADMIN_HOME"/proxy
+
+case "$1" in
+    status)  apacheStatus ;;
+    start)  echo "STARTING PROXY SERVER" ; apacheStart ;;
+    stop)  echo "STOPPING PROXY SERVER" ; apacheStop ;;
+    config)  curl -s localhost/server-info ;;
+    runstat)  curl -s localhost/server-status ;;
+    check)  apacheStatus && {
+        echo
+        curl -s localhost/server-status |
+            sed 's|</\?[-a-zA-Z0-9_ ]\+/\?>||g' |
+            awk '/Apache Server Status/ { go=1 } /Scoreboard/ { go=0 } go == 1 { print }' |
+            grep '^.\+$'
+        } || sendEmail -to monitor@syntheticwebapps.com -subject "WEBADMIN ALERT: Proxy not healthy as of `date`" <<messageEnd
+Attention, HostAdmin!
+The HOURLY proxy check failed to get a clean result. Please obtain the log information from
+the cron job executed at this time and review it to find the cause.
+
+Suggested reference: https://proxy.syntheticwebapps.com/server-status
+messageEnd
+        ;;
+    *)  usage "Invalid method: '$1'" 20 ;;
+esac
+
